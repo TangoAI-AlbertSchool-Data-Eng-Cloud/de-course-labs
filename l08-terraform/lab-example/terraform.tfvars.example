@@ -1,0 +1,31 @@
+// Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored,
+// because the billing account ID and the students' addresses do not belong
+// in git.
+
+// --- From the school (asked 2026-09-20, not yet answered) -------------------
+
+billing_account = "0X0X0X-0X0X0X-0X0X0X"
+
+// Exactly one of these. A folder is tidier: delete it at the end of the course
+// and the projects go with it.
+// org_id    = "123456789012"
+folder_id = "123456789012"
+
+budget_amount   = 25
+budget_currency = "EUR"
+
+// --- The cohort -------------------------------------------------------------
+
+cohort = "msc2-26"
+
+groups = {
+  g01 = ["student.one@example.org", "student.two@example.org", "student.three@example.org"]
+  g02 = ["student.four@example.org", "student.five@example.org", "student.six@example.org"]
+  // ... one entry per group, 3 to 4 members each
+}
+
+// --- Defaults worth knowing about -------------------------------------------
+//
+// region          = "europe-west1"   // bible D10
+// deletion_policy = "PREVENT"        // set to DELETE to allow teardown
+// enable_project_iam_admin = false   // see variables.tf before turning on

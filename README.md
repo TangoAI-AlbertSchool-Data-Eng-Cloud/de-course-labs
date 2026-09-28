@@ -32,6 +32,7 @@ git clone --branch msc2-2026 --depth 1 \
 | `l05-dbt-and-the-medallion-pattern/` | 5 · dbt and the medallion pattern | the reference dbt project, and the recipe for the dbt image |
 | `l06-packaging-data-jobs/` | 6 · Packaging data jobs | the extractor, its Dockerfile, and the deliberately bad one |
 | `l07-airflow/` | 7 · Airflow | the Airflow compose overlay, the DAG, and a cut-down dbt project |
+| `l08-terraform/` | 8 · Terraform | **the Terraform that created your project**, sanitised and generated from the staff repository |
 
 Each folder has its own README saying what to run and what it should print.
 
