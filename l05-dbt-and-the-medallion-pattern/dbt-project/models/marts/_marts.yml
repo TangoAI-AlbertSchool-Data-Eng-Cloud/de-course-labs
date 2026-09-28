@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: fct_order_items
+    description: "One row per product per order. GRAIN: (order_id, p_id)."
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_id, p_id]
+    columns:
+      - name: p_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: p_id
+      - name: qty
+        tests:
+          - not_null
+      - name: country
+        tests:
+          - not_null
+
+  - name: fct_daily_demand
+    description: "One row per product per country per day. GRAIN: (p_id, country, order_date)."
+    columns:
+      - name: demand_key
+        tests: [unique, not_null]
+      - name: units
+        tests: [not_null]
+
+  - name: dim_product
+    description: "One row per product."
+    columns:
+      - name: p_id
+        tests: [unique, not_null]
+      - name: product_name
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+  - name: dim_country
+    description: "One row per country. Six of them."
+    columns:
+      - name: country
+        tests: [unique, not_null]

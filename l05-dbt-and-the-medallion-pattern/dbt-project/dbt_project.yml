@@ -1,0 +1,15 @@
+name: 'albert'
+version: '1.0.0'
+profile: 'albert'
+
+model-paths: ["models"]
+test-paths: ["tests"]
+
+models:
+  albert:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

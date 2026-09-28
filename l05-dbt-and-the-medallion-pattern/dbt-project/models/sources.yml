@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: marketplace
+    description: "Bronze. Filled by lesson 3's three pipelines; dbt never writes here."
+    database: education-tangoai
+    schema: l04_demo
+    tables:
+      - name: orders
+        identifier: orders_raw
+        config:
+          freshness:
+            warn_after:  {count: 1, period: minute}
+            error_after: {count: 5, period: minute}
+      - name: order_items
+        identifier: order_items_raw
+      - name: review
+      - name: product_reviews
+      - name: product
+      - name: customer_shipping
+      - name: shipping_details

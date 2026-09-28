@@ -1,0 +1,12 @@
+albert:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: education-tangoai
+      dataset: l07_demo
+      location: europe-west1
+      threads: 4
+      job_execution_timeout_seconds: 300
+      priority: interactive

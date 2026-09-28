@@ -1,0 +1,3 @@
+# These files run inside Linux containers. CRLF breaks shell scripts and
+# has already cost this course a silent bug, so check everything out as LF.
+* text=auto eol=lf
