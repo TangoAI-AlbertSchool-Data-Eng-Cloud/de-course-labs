@@ -1,0 +1,76 @@
+{
+  "name": "marketplace-postgres-to-bronze",
+  "source": {
+    "type": "postgres",
+    "host": "${POSTGRES_HOST}",
+    "database": "marketplace",
+    "replication_method": {
+      "method": "CDC",
+      "replication_slot": "airbyte_slot",
+      "publication": "airbyte_publication"
+    }
+  },
+  "destination": {
+    "type": "gcs",
+    "bucket": "albert-marketplace-bronze",
+    "path_prefix": "postgres/",
+    "format": "parquet"
+  },
+  "schedule": { "units": 15, "timeUnit": "minutes" },
+  "streams": [
+    {
+      "name": "orders",
+      "sync_mode": "incremental",
+      "destination_sync_mode": "append_dedup",
+      "primary_key": [["order_id"]],
+      "selected_fields": ["order_id", "buyer_id", "payment_id", "order_date"]
+    },
+    {
+      "name": "order_items",
+      "sync_mode": "incremental",
+      "destination_sync_mode": "append_dedup",
+      "primary_key": [["order_id"], ["p_id"]],
+      "selected_fields": ["order_id", "p_id", "qty", "price_at_purchase"]
+    },
+    {
+      "name": "product",
+      "sync_mode": "incremental",
+      "destination_sync_mode": "append_dedup",
+      "primary_key": [["p_id"]],
+      "selected_fields": ["p_id", "p_name", "p_desc", "price", "qty"]
+    },
+    {
+      "name": "review",
+      "sync_mode": "incremental",
+      "destination_sync_mode": "append_dedup",
+      "primary_key": [["review_id"]],
+      "selected_fields": ["review_id", "buyer_id", "r_desc", "title", "rating"]
+    },
+    {
+      "name": "customer_shipping",
+      "sync_mode": "full_refresh",
+      "destination_sync_mode": "overwrite",
+      "selected_fields": ["address_id", "c_id", "is_default"]
+    },
+    {
+      "name": "shipping_details",
+      "sync_mode": "full_refresh",
+      "destination_sync_mode": "overwrite",
+      "selected_fields": ["address_id", "street_address", "city", "state", "zip", "country", "phone"]
+    },
+    {
+      "name": "customer",
+      "sync_mode": "incremental",
+      "destination_sync_mode": "append_dedup",
+      "primary_key": [["c_id"]],
+      "sync_all_fields": true
+    },
+    {
+      "name": "payment_details",
+      "sync_mode": "incremental",
+      "destination_sync_mode": "append_dedup",
+      "primary_key": [["payment_id"]],
+      "sync_all_fields": true
+    }
+  ]
+}
